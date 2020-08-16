@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "wojtek-custom-cfn"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-16jdcmb29w153"
+s3_prefix = "wojtek-custom-cfn"
+region = "eu-central-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"

@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Wojtek is testing custom resources
+
+Globals:
+    Function:
+        Runtime: go1.x
+        
+Resources:
+    AssetsBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: !Sub "${AWS::StackName}-bucket"
+    
+    Deleter:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: main
+            CodeUri: ./deleter
+            Policies:
+                - S3CrudPolicy:
+                      BucketName: !Ref AssetsBucket
+    
+    DeleterResource:
+        Type: AWS::CloudFormation::CustomResource
+        Properties:
+            ServiceToken: !GetAtt Deleter.Arn
+            BucketName: !Ref AssetsBucket
